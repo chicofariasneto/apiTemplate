@@ -1,24 +1,26 @@
-const {
-    Pool
-} = require('pg')
+const { Pool } = require('pg')
 
-// Localhost
-const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'postgres',
-    password: 'postgres',
-    port: 5432,
-})
-/*
-// heroku
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
-});
-*/
+let pool;
+
+if(process.env.LOCAL) {
+    // Local
+    pool = new Pool({
+        user: 'postgres',
+        host: 'localhost',
+        database: 'postgres',
+        password: 'postgres',
+        port: 5432,
+    });
+}
+else {
+    // Heroku
+    pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+            rejectUnauthorized: false
+        }
+    });
+}
 
 module.exports = {
     pool,
