@@ -2,8 +2,9 @@ const { Pool } = require('pg')
 
 let pool;
 
-if(process.env.LOCAL) {
-    // Local
+
+if(process.env.MODE !== "HEROKU") {
+    // BASIC CONNECTION
     pool = new Pool({
         user: 'postgres',
         host: 'localhost',
@@ -13,7 +14,7 @@ if(process.env.LOCAL) {
     });
 }
 else {
-    // Heroku
+    // SSL
     pool = new Pool({
         connectionString: process.env.DATABASE_URL,
         ssl: {
